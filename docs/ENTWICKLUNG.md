@@ -39,7 +39,8 @@ Timer ──▶ Sampler ──▶ CPUSampler, MemoryReader, DiskReader, DiskIOSa
 - **Model/** ist der Vertrag zwischen Sensoren, UI und App. Sensoren kennen keine UI, die UI kennt keine Sensoren.
 - **Monitor** misst immer (Menüleisten-Icon), die Prozessliste aber nur, solange das Panel offen ist (`monitor.detailed`). Beim Öffnen wird sie sofort einmal nachgeladen, ohne die CPU-/Netz-Deltas zu stören.
 - **AppDelegate** erzeugt den `NSHostingController` bei jedem Öffnen neu und verwirft ihn beim Schließen → bei geschlossenem Panel läuft kein SwiftUI-Update.
-- Das Icon wird nur neu gezeichnet, wenn sich ein gerundeter Prozentwert ändert.
+- Das Icon wird nur neu gezeichnet, wenn sich ein Balken sichtbar ändert (20 Stufen ≈ 1 pt); die CPU fürs Icon ist geglättet (Zeitkonstante 6 s). Jedes Icon-Update kostet ≈ 20 ms, das Messen aller Sensoren nur ≈ 0,1 % CPU — Icon-Updates sind der Haupthebel.
+- Ressourcen messen: `scripts/measure.sh [sekunden]` (Durchschnitts-CPU aus der CPU-Zeit, Footprint, Energiebedarf).
 
 ## Stolpersteine mit den Command Line Tools
 

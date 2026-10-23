@@ -10,8 +10,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
     private let popover = NSPopover()
     private var statusItem: NSStatusItem!
     private var cancellables = Set<AnyCancellable>()
-    /// Gerundete Prozentwerte des zuletzt gezeichneten Icons.
+    /// Balkenstufen des zuletzt gezeichneten Icons.
     private var lastIconKey: [Int]?
+    /// Geglättete CPU-Last fürs Icon (das Panel zeigt weiter die exakten Werte).
+    private var iconCPU: Double?
     private var escapeMonitor: Any?
     /// Transientes Popover schließt schon beim mouseDown auf das Icon – das folgende mouseUp darf es nicht wieder öffnen.
     private var lastClose = Date.distantPast
@@ -42,11 +44,19 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
 
     private func updateIcon(_ s: Snapshot) {
         let disk = (s.disks.first(where: \.isBoot) ?? s.disks.first)?.usedFraction ?? 0
-        let key = [s.cpu.usage, s.memory.fraction, disk].map { Int(($0 * 100).rounded()) }
+        // Jedes Icon-Update kostet ~20 ms (macOS spiegelt das Status-Item), ein Vielfaches der Messung.
+        // Daher CPU fürs Icon glätten (Zeitkonstante 6 s) und nur bei sichtbarer Änderung zeichnen:
+        // 20 Stufen ≈ 1 pt Balkenlänge.
+        let smoothing = 1 - exp(-monitor.interval / 6)
+        let cpu = iconCPU.map { $0 + (s.cpu.usage - $0) * smoothing } ?? s.cpu.usage
+        iconCPU = cpu
+        let values = [cpu, s.memory.fraction, disk]
+        let key = values.map { Int(($0 * 20).rounded()) }
         guard key != lastIconKey, let button = statusItem.button else { return }
         lastIconKey = key
-        button.image = StatusIconRenderer.image(cpu: s.cpu.usage, memory: s.memory.fraction, disk: disk)
-        let text = "CPU \(key[0]) %, Speicher \(key[1]) %, Festplatte \(key[2]) %"
+        button.image = StatusIconRenderer.image(cpu: cpu, memory: s.memory.fraction, disk: disk)
+        let percents = values.map { Int(($0 * 100).rounded()) }
+        let text = "CPU \(percents[0]) %, Speicher \(percents[1]) %, Festplatte \(percents[2]) %"
         button.toolTip = text
         button.setAccessibilityLabel("Pegli – \(text)")
     }

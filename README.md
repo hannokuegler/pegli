@@ -5,7 +5,7 @@
 # Pegli
 
 **Dein Mac auf einen Blick — schlanker Systemmonitor für die macOS-Menüleiste.**<br>
-Reines Swift, null Abhängigkeiten, ≈ 0,5 % CPU und ≈ 10 MB Speicher.
+Reines Swift, null Abhängigkeiten, ≈ 0,6 % CPU und ≈ 13 MB Speicher.
 
 [![Release](https://img.shields.io/github/v/release/hannokuegler/pegli?label=Release)](https://github.com/hannokuegler/pegli/releases/latest)
 [![CI](https://github.com/hannokuegler/pegli/actions/workflows/ci.yml/badge.svg)](https://github.com/hannokuegler/pegli/actions/workflows/ci.yml)
@@ -54,14 +54,31 @@ Dazu Uptime und Eigenlast im Fußbereich, „Weitere Informationen ↗" öffnet 
 
 Was genau gemessen wird, woher die Werte kommen und wo die Grenzen liegen: [docs/MESSWERTE.md](docs/MESSWERTE.md).
 
-## Warum so leicht?
+## 🪶 Leichtgewicht
 
-- **Prozessliste nur bei offenem Panel.** Geschlossen misst Pegli nur das, was das Icon braucht.
-- **Kein SwiftUI im Leerlauf.** Das Panel wird bei jedem Öffnen neu aufgebaut und beim Schließen verworfen.
-- **Icon zeichnet nur bei Änderung** — erst wenn sich ein gerundeter Prozentwert ändert.
-- **Null Abhängigkeiten.** Nur Apple-Frameworks (AppKit, SwiftUI, IOKit, SystemConfiguration), gebaut mit den Command Line Tools — Xcode ist nicht nötig.
+Ein Systemmonitor, der selbst Last erzeugt, misst vor allem sich selbst. Pegli ist darauf gebaut, im Hintergrund nicht aufzufallen:
 
-Ergebnis: ca. 0,5 % CPU und 10 MB Speicher bei 2-s-Intervall. Pegli zeigt seine Eigenlast selbst im Fußbereich an.
+| | Pegli |
+|---|---|
+| **CPU** im Schnitt | **≈ 0,6 %** eines Kerns |
+| **Speicher** (Footprint, wie in der Aktivitätsanzeige) | **≈ 13 MB** |
+| **App-Größe** | 1,7 MB (Download 0,8 MB) |
+| **Abhängigkeiten** | keine, nur Apple-Frameworks |
+
+<sub>Gemessen über 5 Minuten mit [`scripts/measure.sh`](scripts/measure.sh) auf einem MacBook Pro M1 (16 GB), Panel geschlossen, 2-s-Intervall. CPU aus der tatsächlich verbrauchten CPU-Zeit, nicht aus Momentwerten.</sub>
+
+**So kommt Pegli auf die Werte**
+
+- **Messen ist billig, Zeichnen teuer.** Alle Sensoren zusammen kosten nur ≈ 0,1 % CPU. Den Rest braucht macOS, um das Icon in der Menüleiste zu aktualisieren — rund 20 ms pro Update. Darum zeichnet Pegli das Icon nur neu, wenn sich ein Balken **sichtbar** ändert (≈ 1 pt), und glättet die CPU-Last fürs Icon über ein paar Sekunden. Das Panel zeigt weiter die exakten Werte. Ergebnis: halb so viel CPU wie vorher (1,3 % → 0,6 %), dazu ein ruhiges Icon ohne Geflacker.
+- **Prozessliste nur bei offenem Panel.** Die Top-Apps (teuerste Messung) laufen nur, solange du hinschaust.
+- **Kein SwiftUI im Leerlauf.** Das Panel wird beim Öffnen gebaut und beim Schließen verworfen.
+- **Volumes nur jeden 10. Takt**, alles andere direkt über Mach, IOKit und `sysctl` — ohne Hilfsprozesse und ohne Polling von Kommandozeilen-Tools.
+
+Pegli zeigt seine Eigenlast unten im Panel selbst an. Nachmessen auf deinem Mac:
+
+```bash
+git clone https://github.com/hannokuegler/pegli.git && pegli/scripts/measure.sh
+```
 
 ## Installation
 

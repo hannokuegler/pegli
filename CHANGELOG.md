@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2 — 2026-10-23
+
+- Halb so viel CPU: ≈ 0,6 % statt ≈ 1,3 % (gemessen über 5 min, M1). Das Menüleisten-Icon wird nur noch neu gezeichnet, wenn sich ein Balken sichtbar ändert, und die CPU-Last fürs Icon ist geglättet — ruhigeres Icon, das Panel zeigt weiter exakte Werte.
+- `scripts/measure.sh`: misst Durchschnitts-CPU, Speicher-Footprint und Energiebedarf des laufenden Pegli.
+
 ## 1.1 — 2026-10-20
 
 - Umbenannt von „Pegel" in **Pegli** (Bundle-ID `local.hanno.pegli`, LaunchAgent, Log, Repo).
