@@ -11,8 +11,8 @@ struct DiskSection: View {
         let boot = disks.first(where: \.isBoot) ?? disks.first
         let others = disks.filter { $0.id != boot?.id }
         let expanded = state.expanded.contains(.disk)
-        SectionContainer(icon: "internaldrive", title: "Laufwerk",
-                         subtitle: boot.map(availability) ?? "Kein Laufwerk gefunden",
+        SectionContainer(icon: "internaldrive", title: tr("Laufwerk", "Disk"),
+                         subtitle: boot.map(availability) ?? tr("Kein Laufwerk gefunden", "No disk found"),
                          tint: palette.orange, ring: boot?.usedFraction ?? 0,
                          expanded: expanded, onToggle: { state.animatedToggle(.disk) }) {
             if let boot { BigValue(value: Format.percentNumber(boot.usedFraction), unit: "%") }
@@ -29,20 +29,21 @@ struct DiskSection: View {
             }
         } details: {
             let io = monitor.snapshot.diskIO
-            DetailRow(label: "Lesen", value: Format.byteRate(io.readBytesPerSec), dot: palette.orange)
-            DetailRow(label: "Schreiben", value: Format.byteRate(io.writeBytesPerSec), dot: palette.yellow)
+            DetailRow(label: tr("Lesen", "Read"), value: Format.byteRate(io.readBytesPerSec), dot: palette.orange)
+            DetailRow(label: tr("Schreiben", "Write"), value: Format.byteRate(io.writeBytesPerSec), dot: palette.yellow)
             MoreInfoRow { state.onOpenExternal(.disk) }
         }
     }
 
     /// „376,0 GB von 494,3 GB frei"
     private func availability(_ d: DiskInfo) -> String {
-        "\(Format.bytes(d.available)) von \(Format.bytes(d.total)) frei"
+        tr("\(Format.bytes(d.available)) von \(Format.bytes(d.total)) frei",
+           "\(Format.bytes(d.available)) of \(Format.bytes(d.total)) free")
     }
 
     private func othersHeader(count: Int) -> some View {
         HStack(spacing: 6) {
-            Caption("Andere Laufwerke (\(count))")
+            Caption(tr("Andere Laufwerke (\(count))", "Other disks (\(count))"))
             ExpandButton(expanded: showOthers, size: 16) {
                 withAnimation(.spring(response: 0.32, dampingFraction: 0.86)) { showOthers.toggle() }
             }

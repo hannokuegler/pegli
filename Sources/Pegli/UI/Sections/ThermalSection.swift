@@ -7,7 +7,7 @@ struct ThermalSection: View {
 
     var body: some View {
         let expanded = state.expanded.contains(.thermal)
-        SectionContainer(icon: "thermometer.medium", title: "Temperatur", subtitle: subtitle, tint: color,
+        SectionContainer(icon: "thermometer.medium", title: tr("Temperatur", "Temperature"), subtitle: subtitle, tint: color,
                          ring: Double(level.rawValue + 1) / Double(ThermalLevel.allCases.count),
                          expanded: expanded, onToggle: { state.animatedToggle(.thermal) }) {
             Text(verbatim: label)
@@ -20,7 +20,8 @@ struct ThermalSection: View {
             SegmentBar(filled: level.rawValue + 1, color: color)
                 .animation(.easeOut(duration: 0.3), value: level)
         } details: {
-            Text(verbatim: "Auf Apple Silicon gibt macOS keine Sensorwerte frei, sondern nur den thermischen Zustand (normal, leicht erhöht, hoch, kritisch). Ab „hoch“ drosselt das System die Leistung.")
+            Text(verbatim: tr("Auf Apple Silicon gibt macOS keine Sensorwerte frei, sondern nur den thermischen Zustand (normal, leicht erhöht, hoch, kritisch). Ab „hoch“ drosselt das System die Leistung.",
+                               "On Apple Silicon, macOS doesn’t expose sensor readings, only the thermal state (normal, elevated, high, critical). From “high” on, the system throttles performance."))
                 .font(Fonts.small)
                 .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
@@ -39,13 +40,13 @@ struct ThermalSection: View {
     private var label: String {
         switch level {
         case .nominal: return "Normal"
-        case .fair: return "Erhöht"
-        case .serious: return "Hoch"
-        case .critical: return "Kritisch"
+        case .fair: return tr("Erhöht", "Elevated")
+        case .serious: return tr("Hoch", "High")
+        case .critical: return tr("Kritisch", "Critical")
         }
     }
 
     private var subtitle: String {
-        level.rawValue >= ThermalLevel.serious.rawValue ? "System drosselt die Leistung" : "Thermischer Zustand"
+        level.rawValue >= ThermalLevel.serious.rawValue ? tr("System drosselt die Leistung", "System is throttling") : tr("Thermischer Zustand", "Thermal state")
     }
 }

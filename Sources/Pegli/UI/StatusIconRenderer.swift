@@ -11,7 +11,8 @@ enum StatusIconRenderer {
             return true
         }
         image.isTemplate = true
-        image.accessibilityDescription = "CPU \(Format.percent(values[0])), Speicher \(Format.percent(values[1])), Laufwerk \(Format.percent(values[2]))"
+        image.accessibilityDescription = tr("CPU \(Format.percent(values[0])), Speicher \(Format.percent(values[1])), Laufwerk \(Format.percent(values[2]))",
+                                            "CPU \(Format.percent(values[0])), memory \(Format.percent(values[1])), disk \(Format.percent(values[2]))")
         return image
     }
 

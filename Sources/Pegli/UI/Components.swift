@@ -192,7 +192,7 @@ struct ExpandButton: View {
                 .rotationEffect(.degrees(expanded ? 90 : 0))
         }
         .buttonStyle(.plain)
-        .help(expanded ? "Details ausblenden" : "Details anzeigen")
+        .help(expanded ? tr("Details ausblenden", "Hide details") : tr("Details anzeigen", "Show details"))
     }
 }
 
@@ -203,7 +203,7 @@ struct MoreInfoButton: View {
     var body: some View {
         Button(action: action) {
             HStack(spacing: 3) {
-                Text(verbatim: "Weitere Informationen")
+                Text(verbatim: tr("Weitere Informationen", "More Info"))
                 Image(systemName: "arrow.up.right").font(.system(size: 8, weight: .bold))
             }
             .font(Fonts.smallBold)
@@ -347,7 +347,7 @@ struct AppList: View {
 
     var body: some View {
         if apps.isEmpty {
-            Text(verbatim: "Wird ermittelt …").font(Fonts.body).foregroundStyle(.secondary)
+            Text(verbatim: tr("Wird ermittelt …", "Measuring …")).font(Fonts.body).foregroundStyle(.secondary)
         } else {
             VStack(spacing: 5) {
                 ForEach(apps) { AppRow(app: $0, value: value($0), share: share($0), tint: tint) }

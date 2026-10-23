@@ -8,22 +8,22 @@ struct CPUSection: View {
     var body: some View {
         let cpu = monitor.snapshot.cpu
         let expanded = state.expanded.contains(.cpu)
-        let subtitle = cpu.perCore.isEmpty ? "Auslastung" : "\(cpu.perCore.count) Kerne"
-        SectionContainer(icon: "cpu", title: "Prozessor", subtitle: subtitle, tint: palette.blue, ring: cpu.usage,
+        let subtitle = cpu.perCore.isEmpty ? tr("Auslastung", "Usage") : tr("\(cpu.perCore.count) Kerne", "\(cpu.perCore.count) cores")
+        SectionContainer(icon: "cpu", title: tr("Prozessor", "CPU"), subtitle: subtitle, tint: palette.blue, ring: cpu.usage,
                          expanded: expanded, onToggle: { state.animatedToggle(.cpu) }) {
             BigValue(value: Format.percentNumber(cpu.usage), unit: "%")
         } content: {
             AreaGraph(values: monitor.cpuHistory, color: palette.blue).frame(height: 30)
         } details: {
             HStack(spacing: 6) {
-                share("Benutzer", cpu.user, color: palette.blue)
+                share(tr("Benutzer", "User"), cpu.user, color: palette.blue)
                 share("System", cpu.system, color: palette.teal)
-                share("Leerlauf", max(0, 1 - cpu.usage), color: Color.secondary.opacity(0.5))
+                share(tr("Leerlauf", "Idle"), max(0, 1 - cpu.usage), color: Color.secondary.opacity(0.5))
             }
-            DetailRow(label: "Durchschnittslast", value: Format.loadAverage(cpu.loadAverage))
+            DetailRow(label: tr("Durchschnittslast", "Load average"), value: Format.loadAverage(cpu.loadAverage))
             if !cpu.perCore.isEmpty {
                 VStack(alignment: .leading, spacing: 5) {
-                    Caption("Kerne (\(cpu.perCore.count))")
+                    Caption(tr("Kerne (\(cpu.perCore.count))", "Cores (\(cpu.perCore.count))"))
                     CoreBars(values: cpu.perCore, tint: palette.blue, tint2: palette.teal)
                 }
             }

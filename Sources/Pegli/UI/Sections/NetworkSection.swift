@@ -9,15 +9,15 @@ struct NetworkSection: View {
         let net = monitor.snapshot.network
         let expanded = state.expanded.contains(.network)
         let subtitle = [net.interfaceName, net.localIP].compactMap { $0 }.joined(separator: " · ")
-        SectionContainer(icon: "network", title: "Netzwerk",
-                         subtitle: subtitle.isEmpty ? "Nicht verbunden" : subtitle,
+        SectionContainer(icon: "network", title: tr("Netzwerk", "Network"),
+                         subtitle: subtitle.isEmpty ? tr("Nicht verbunden", "Not connected") : subtitle,
                          tint: palette.cyan, ring: nil,
                          expanded: expanded, onToggle: { state.animatedToggle(.network) }) {
             EmptyView()
         } content: {
             HStack(spacing: 6) {
-                rate("Empfangen", arrow: "arrow.down", net.downBytesPerSec, palette.cyan)
-                rate("Gesendet", arrow: "arrow.up", net.upBytesPerSec, palette.indigo)
+                rate(tr("Empfangen", "Received"), arrow: "arrow.down", net.downBytesPerSec, palette.cyan)
+                rate(tr("Gesendet", "Sent"), arrow: "arrow.up", net.upBytesPerSec, palette.indigo)
             }
         } details: {
             let top = max(1, (monitor.downHistory + monitor.upHistory).max() ?? 1)
@@ -26,17 +26,17 @@ struct NetworkSection: View {
                       secondary: monitor.upHistory, secondaryColor: palette.indigo)
                 .frame(height: 32)
             HStack(spacing: 12) {
-                legend(palette.cyan, "Empfangen")
-                legend(palette.indigo, "Gesendet")
+                legend(palette.cyan, tr("Empfangen", "Received"))
+                legend(palette.indigo, tr("Gesendet", "Sent"))
                 Spacer()
-                Text(verbatim: "Spitze \(peak.value)\(Format.nbsp)\(peak.unit)")
+                Text(verbatim: tr("Spitze", "Peak") + " \(peak.value)\(Format.nbsp)\(peak.unit)")
                     .monospacedDigit()
                     .foregroundStyle(.secondary)
             }
             .font(Fonts.small)
-            DetailRow(label: "Schnittstelle", value: net.interfaceName ?? "–")
-            DetailRow(label: "Lokale IP", value: net.localIP ?? "–")
-            DetailRow(label: "Seit Systemstart",
+            DetailRow(label: tr("Schnittstelle", "Interface"), value: net.interfaceName ?? "–")
+            DetailRow(label: tr("Lokale IP", "Local IP"), value: net.localIP ?? "–")
+            DetailRow(label: tr("Seit Systemstart", "Since boot"),
                       value: "↓ \(Format.bytes(net.totalDown)) · ↑ \(Format.bytes(net.totalUp))")
             MoreInfoRow { state.onOpenExternal(.network) }
         }

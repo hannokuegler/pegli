@@ -10,7 +10,7 @@ struct FooterSection: View {
             item(icon: "clock.arrow.circlepath", title: "Uptime") {
                 Text(verbatim: Format.uptime(uptime))
             }
-            item(icon: "gauge.with.dots.needle.33percent", title: "Eigenlast") {
+            item(icon: "gauge.with.dots.needle.33percent", title: tr("Eigenlast", "Pegli usage")) {
                 Text(verbatim: "\(Format.percentValue(selfUsage.cpuPercent)) CPU · \(Format.number(Double(selfUsage.memoryBytes) / 1_048_576, digits: 0))\(Format.nbsp)MB")
                     .monospacedDigit()
             }

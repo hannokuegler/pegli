@@ -7,17 +7,17 @@ struct BatterySection: View {
 
     var body: some View {
         let expanded = state.expanded.contains(.battery)
-        SectionContainer(icon: icon, title: "Akku", subtitle: status, tint: tint, ring: battery.level,
+        SectionContainer(icon: icon, title: tr("Akku", "Battery"), subtitle: status, tint: tint, ring: battery.level,
                          expanded: expanded, onToggle: { state.animatedToggle(.battery) }) {
             BigValue(value: Format.percentNumber(battery.level), unit: "%")
         } content: {
             EmptyView()
         } details: {
-            DetailRow(label: "Ladezyklen", value: battery.cycleCount.map { "\($0)" } ?? "–")
-            DetailRow(label: "Zustand", value: battery.health.map { Format.percent($0) } ?? "–")
-            DetailRow(label: "Temperatur", value: battery.temperatureC.map { Format.temperature($0) } ?? "–")
-            DetailRow(label: "Netzteil", value: battery.adapterWatts.map { "\($0)\(Format.nbsp)W" }
-                      ?? (battery.isPluggedIn ? "Angeschlossen" : "Nicht angeschlossen"))
+            DetailRow(label: tr("Ladezyklen", "Cycle count"), value: battery.cycleCount.map { "\($0)" } ?? "–")
+            DetailRow(label: tr("Zustand", "Health"), value: battery.health.map { Format.percent($0) } ?? "–")
+            DetailRow(label: tr("Temperatur", "Temperature"), value: battery.temperatureC.map { Format.temperature($0) } ?? "–")
+            DetailRow(label: tr("Netzteil", "Power adapter"), value: battery.adapterWatts.map { "\($0)\(Format.nbsp)W" }
+                      ?? (battery.isPluggedIn ? tr("Angeschlossen", "Connected") : tr("Nicht angeschlossen", "Not connected")))
             MoreInfoRow { state.onOpenExternal(.battery) }
         }
     }
@@ -43,14 +43,14 @@ struct BatterySection: View {
 
     private var status: String {
         if battery.isCharged || (battery.isPluggedIn && !battery.isCharging && battery.level >= 0.99) {
-            return "Vollständig geladen"
+            return tr("Vollständig geladen", "Fully charged")
         }
         if battery.isCharging {
-            if let m = battery.minutesRemaining { return "Lädt – voll in \(Format.hoursMinutes(m))" }
-            return "Wird geladen …"
+            if let m = battery.minutesRemaining { return tr("Lädt – voll in \(Format.hoursMinutes(m))", "Charging – full in \(Format.hoursMinutes(m))") }
+            return tr("Wird geladen …", "Charging …")
         }
-        if battery.isPluggedIn { return "Am Netzteil, lädt nicht" }
-        if let m = battery.minutesRemaining { return "Akkubetrieb – noch \(Format.hoursMinutes(m))" }
-        return "Restzeit wird berechnet …"
+        if battery.isPluggedIn { return tr("Am Netzteil, lädt nicht", "Plugged in, not charging") }
+        if let m = battery.minutesRemaining { return tr("Akkubetrieb – noch \(Format.hoursMinutes(m))", "On battery – \(Format.hoursMinutes(m)) left") }
+        return tr("Restzeit wird berechnet …", "Calculating time left …")
     }
 }

@@ -31,7 +31,7 @@ jobs:
           awk -v v="$version" '$0 ~ "^## " v " " {on=1; next} /^## / {on=0} on' CHANGELOG.md > dist/notes.md
           cat >> dist/notes.md <<'NOTES'
 
-          **Installieren** (Apple Silicon, macOS 14+):
+          **Install** (Apple Silicon, macOS 14+):
 
           ```bash
           curl -fsSL https://raw.githubusercontent.com/hannokuegler/pegli/main/install.sh | bash

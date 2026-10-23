@@ -1,8 +1,8 @@
 import Foundation
 
-/// Zentrale Formatierung (de_DE). Alle Texte im Panel laufen hier durch.
+/// Zentrale Formatierung (de_DE bzw. en_US, je nach Sprache). Alle Texte im Panel laufen hier durch.
 enum Format {
-    static let locale = Locale(identifier: "de_DE")
+    static let locale = Locale(identifier: L10n.isGerman ? "de_DE" : "en_US")
     /// Geschütztes Leerzeichen zwischen Zahl und Einheit.
     static let nbsp = "\u{00A0}"
 
@@ -94,11 +94,11 @@ enum Format {
         let total = Int(max(0, seconds.isFinite ? seconds : 0)) / 60
         let d = total / 1440, h = total / 60 % 24, m = total % 60
         var parts: [String] = []
-        if d > 0 { parts.append("\(d) \(d == 1 ? "Tag" : "Tage")") }
-        if h > 0 { parts.append("\(h) \(h == 1 ? "Stunde" : "Stunden")") }
-        if m > 0 || parts.isEmpty { parts.append("\(m) \(m == 1 ? "Minute" : "Minuten")") }
+        if d > 0 { parts.append("\(d) \(d == 1 ? tr("Tag", "day") : tr("Tage", "days"))") }
+        if h > 0 { parts.append("\(h) \(h == 1 ? tr("Stunde", "hour") : tr("Stunden", "hours"))") }
+        if m > 0 || parts.isEmpty { parts.append("\(m) \(m == 1 ? tr("Minute", "minute") : tr("Minuten", "minutes"))") }
         if parts.count == 1 { return parts[0] }
-        return parts.dropLast().joined(separator: ", ") + " und " + parts.last!
+        return parts.dropLast().joined(separator: ", ") + tr(" und ", " and ") + parts.last!
     }
 
     /// Minuten → „1:20 h"

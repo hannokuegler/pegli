@@ -113,13 +113,13 @@ struct PanelHeader: View {
 
     /// Wichtigster Hinweis zuerst, sonst Entwarnung.
     private func status(_ s: Snapshot) -> (String, Color) {
-        if s.thermal.rawValue >= ThermalLevel.serious.rawValue { return ("Temperatur hoch – System drosselt", palette.red) }
-        if s.memory.pressure == .critical { return ("Speicherdruck kritisch", palette.red) }
-        if let b = s.battery, !b.isPluggedIn, b.level < 0.1 { return ("Akku fast leer", palette.red) }
-        if s.memory.pressure == .warning { return ("Speicherdruck erhöht", palette.yellow) }
-        if s.cpu.usage > 0.85 { return ("Hohe CPU-Last", palette.orange) }
-        if s.thermal == .fair { return ("Temperatur leicht erhöht", palette.yellow) }
-        return ("Alles im grünen Bereich", palette.green)
+        if s.thermal.rawValue >= ThermalLevel.serious.rawValue { return (tr("Temperatur hoch – System drosselt", "Running hot – system is throttling"), palette.red) }
+        if s.memory.pressure == .critical { return (tr("Speicherdruck kritisch", "Memory pressure critical"), palette.red) }
+        if let b = s.battery, !b.isPluggedIn, b.level < 0.1 { return (tr("Akku fast leer", "Battery almost empty"), palette.red) }
+        if s.memory.pressure == .warning { return (tr("Speicherdruck erhöht", "Memory pressure elevated"), palette.yellow) }
+        if s.cpu.usage > 0.85 { return (tr("Hohe CPU-Last", "High CPU load"), palette.orange) }
+        if s.thermal == .fair { return (tr("Temperatur leicht erhöht", "Slightly warm"), palette.yellow) }
+        return (tr("Alles im grünen Bereich", "All good"), palette.green)
     }
 }
 
@@ -162,7 +162,7 @@ struct PanelToolbar: View {
             Button { state.onTogglePin() } label: {
                 CircleIcon(systemName: state.isPinned ? "pin.fill" : "pin", size: 22, active: state.isPinned)
             }
-            .help(state.isPinned ? "Lösen" : "Anheften")
+            .help(state.isPinned ? tr("Lösen", "Unpin") : tr("Anheften", "Pin"))
 
             if interactive {
                 settingsMenu
@@ -173,26 +173,26 @@ struct PanelToolbar: View {
             Button { state.onClose() } label: {
                 CircleIcon(systemName: "xmark", size: 22)
             }
-            .help("Schließen")
+            .help(tr("Schließen", "Close"))
         }
         .buttonStyle(.plain)
     }
 
     private var settingsMenu: some View {
         Menu {
-            Picker("Aktualisierung", selection: $monitor.interval) {
-                Text(verbatim: "Jede Sekunde").tag(TimeInterval(1))
-                Text(verbatim: "Alle 2 Sekunden").tag(TimeInterval(2))
-                Text(verbatim: "Alle 5 Sekunden").tag(TimeInterval(5))
+            Picker(tr("Aktualisierung", "Update"), selection: $monitor.interval) {
+                Text(verbatim: tr("Jede Sekunde", "Every second")).tag(TimeInterval(1))
+                Text(verbatim: tr("Alle 2 Sekunden", "Every 2 seconds")).tag(TimeInterval(2))
+                Text(verbatim: tr("Alle 5 Sekunden", "Every 5 seconds")).tag(TimeInterval(5))
             }
             .pickerStyle(.inline)
             Divider()
-            Toggle("Beim Anmelden starten", isOn: Binding(
+            Toggle(tr("Beim Anmelden starten", "Launch at Login"), isOn: Binding(
                 get: { state.launchAtLogin },
                 set: { state.launchAtLogin = $0; state.onSetLaunchAtLogin($0) }
             ))
             Divider()
-            Button("Pegli beenden") { state.onQuit() }
+            Button(tr("Pegli beenden", "Quit Pegli")) { state.onQuit() }
                 .keyboardShortcut("q")
         } label: {
             Image(systemName: "gearshape")
@@ -206,6 +206,6 @@ struct PanelToolbar: View {
         .frame(width: 22, height: 22)
         .background(Circle().fill(palette.button))
         .contentShape(Circle())
-        .help("Einstellungen")
+        .help(tr("Einstellungen", "Settings"))
     }
 }

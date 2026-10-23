@@ -11,8 +11,9 @@ struct MemorySection: View {
         // Belegt = App-Speicher + fixiert + komprimiert (wie Aktivitätsanzeige).
         let app = mem.used > mem.wired + mem.compressed ? mem.used - mem.wired - mem.compressed : 0
         let total = Double(max(1, mem.total))
-        SectionContainer(icon: "memorychip", title: "Speicher",
-                         subtitle: "\(Format.gigabytes(mem.used)) von \(Format.totalGigabytes(mem.total))\(Format.nbsp)GB belegt",
+        SectionContainer(icon: "memorychip", title: tr("Speicher", "Memory"),
+                         subtitle: tr("\(Format.gigabytes(mem.used)) von \(Format.totalGigabytes(mem.total))\(Format.nbsp)GB belegt",
+                                       "\(Format.gigabytes(mem.used)) of \(Format.totalGigabytes(mem.total))\(Format.nbsp)GB used"),
                          tint: palette.purple, ring: mem.fraction,
                          expanded: expanded, onToggle: { state.animatedToggle(.memory) }) {
             BigValue(value: Format.percentNumber(mem.fraction), unit: "%")
@@ -26,19 +27,19 @@ struct MemorySection: View {
                 HStack(spacing: 0) {
                     legend("Apps", app, palette.purple)
                     Spacer(minLength: 6)
-                    legend("Fixiert", mem.wired, palette.purple.opacity(0.62))
+                    legend(tr("Fixiert", "Wired"), mem.wired, palette.purple.opacity(0.62))
                     Spacer(minLength: 6)
-                    legend("Komprimiert", mem.compressed, palette.purple.opacity(0.34))
+                    legend(tr("Komprimiert", "Compressed"), mem.compressed, palette.purple.opacity(0.34))
                 }
             }
         } details: {
             let (label, color, text) = pressureLabel(mem.pressure)
-            Caption(text: "Speicherdruck") {
+            Caption(text: tr("Speicherdruck", "Memory pressure")) {
                 Text(verbatim: label).font(Fonts.smallBold).foregroundStyle(text)
             }
             BarGraph(values: monitor.pressureHistory, color: color).frame(height: 16)
-            DetailRow(label: "Aktiv", value: Format.gigabytes(mem.active) + Format.nbsp + "GB")
-            DetailRow(label: "Auslagerung (Swap)", value: Format.gigabytes(mem.swapUsed) + Format.nbsp + "GB")
+            DetailRow(label: tr("Aktiv", "Active"), value: Format.gigabytes(mem.active) + Format.nbsp + "GB")
+            DetailRow(label: tr("Auslagerung (Swap)", "Swap used"), value: Format.gigabytes(mem.swapUsed) + Format.nbsp + "GB")
             AppsHeader { state.onOpenExternal(.memory) }
             AppList(apps: monitor.snapshot.topMemoryApps, tint: palette.purple,
                     share: { Double($0.memoryBytes) / total }) { Format.appMemory($0.memoryBytes) }
@@ -61,8 +62,8 @@ struct MemorySection: View {
     private func pressureLabel(_ p: MemoryPressure) -> (String, Color, Color) {
         switch p {
         case .normal: return ("Normal", palette.green, palette.green)
-        case .warning: return ("Erhöht", palette.yellow, palette.yellowText)
-        case .critical: return ("Kritisch", palette.red, palette.red)
+        case .warning: return (tr("Erhöht", "Elevated"), palette.yellow, palette.yellowText)
+        case .critical: return (tr("Kritisch", "Critical"), palette.red, palette.red)
         }
     }
 }

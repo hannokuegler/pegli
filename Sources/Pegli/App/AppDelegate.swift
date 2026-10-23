@@ -56,7 +56,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
         lastIconKey = key
         button.image = StatusIconRenderer.image(cpu: cpu, memory: s.memory.fraction, disk: disk)
         let percents = values.map { Int(($0 * 100).rounded()) }
-        let text = "CPU \(percents[0]) %, Speicher \(percents[1]) %, Festplatte \(percents[2]) %"
+        let text = tr("CPU \(percents[0]) %, Speicher \(percents[1]) %, Festplatte \(percents[2]) %",
+                      "CPU \(percents[0]) %, memory \(percents[1]) %, disk \(percents[2]) %")
         button.toolTip = text
         button.setAccessibilityLabel("Pegli – \(text)")
     }
@@ -74,12 +75,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
     private func showContextMenu() {
         if popover.isShown { popover.performClose(nil) }
         let menu = NSMenu()
-        let login = NSMenuItem(title: "Beim Anmelden starten", action: #selector(toggleLaunchAtLogin), keyEquivalent: "")
+        let login = NSMenuItem(title: tr("Beim Anmelden starten", "Launch at Login"), action: #selector(toggleLaunchAtLogin), keyEquivalent: "")
         login.target = self
         login.state = LoginItem.isEnabled ? .on : .off
         menu.addItem(login)
         menu.addItem(.separator())
-        let quit = NSMenuItem(title: "Pegli beenden", action: #selector(quit), keyEquivalent: "q")
+        let quit = NSMenuItem(title: tr("Pegli beenden", "Quit Pegli"), action: #selector(quit), keyEquivalent: "q")
         quit.target = self
         menu.addItem(quit)
         // Menü nur für diesen Klick anhängen, sonst öffnet auch Linksklick das Menü.

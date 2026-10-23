@@ -51,7 +51,8 @@ Timer ──▶ Sampler ──▶ CPUSampler, MemoryReader, DiskReader, DiskIOSa
 
 ## Code-Stil
 
-- Kommentare knapp, auf Deutsch; Texte in der UI auf Deutsch, Zahlen in `de_DE` (zentral in `UI/Format.swift`).
+- Kommentare knapp, auf Deutsch. UI-Texte zweisprachig über `tr("Deutsch", "English")` (`UI/L10n.swift`): Deutsch, wenn die bevorzugte Systemsprache Deutsch ist, sonst Englisch. Zahlen entsprechend in `de_DE` bzw. `en_US` (zentral in `UI/Format.swift`).
+- Sprache zum Testen erzwingen: `Pegli --render p.png -AppleLanguages "(en)"` (bzw. `"(de)"`).
 - Speicher binär (GiB, wie Aktivitätsanzeige), Laufwerke dezimal (GB, wie Finder), Netzwerk in Bit/s.
 - Neue Sensoren: Wert in `Snapshot` ergänzen → Reader/Sampler in `Sensors/` → in `Sampler.sample` eintragen → UI. Teuer? Nur bei `detailed` messen oder wie `DiskReader` nur jeden n-ten Tick.
 
