@@ -1,6 +1,8 @@
 <div align="center">
 
-<img src="docs/hero-de.png" alt="Pegli: Menüleisten-Icon mit CPU-, Speicher- und Laufwerksbalken, darunter das Panel hell und dunkel" width="100%">
+<a href="docs/pegli-tour.mp4"><img src="docs/pegli-tour.webp" alt="22-Sekunden-Tour: Klick aufs CPU/MEM/HD-Icon in der Menüleiste, das Pegli-Panel klappt auf, zeigt Details, wechselt zwischen hell, dunkel, Englisch und Deutsch und endet mit 0,6 % CPU, 13 MB Speicher, 1,7 MB App-Größe und null Abhängigkeiten" width="100%"></a>
+
+<sub>▶︎ 22-Sekunden-Tour, gemacht mit <a href="https://github.com/latent-spaces/brag">/brag</a> — <a href="docs/pegli-tour.mp4">mit Ton ansehen</a></sub>
 
 # Pegli
 
