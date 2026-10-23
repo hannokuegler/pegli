@@ -1,0 +1,21 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Swift-Version
+        run: swift --version
+      - name: Bauen (Release, arm64, ad-hoc signiert)
+        run: ./scripts/build.sh
+      - name: Messwerte lesen (--dump)
+        run: build/Pegli.app/Contents/MacOS/Pegli --dump
+      - name: Skripte prüfen
+        run: |
+          for script in install.sh scripts/*.sh; do bash -n "$script"; done

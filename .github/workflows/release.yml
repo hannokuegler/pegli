@@ -1,0 +1,45 @@
+name: Release
+
+# Tag pushen (z. B. v1.2) → App bauen, ZIP + SHA256SUMS als GitHub-Release veröffentlichen.
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Bauen
+        run: ./scripts/build.sh
+      - name: Version prüfen
+        run: |
+          plist_version="v$(/usr/libexec/PlistBuddy -c 'Print CFBundleShortVersionString' Resources/Info.plist)"
+          [ "$plist_version" = "$GITHUB_REF_NAME" ] || { echo "Tag $GITHUB_REF_NAME ≠ Info.plist $plist_version"; exit 1; }
+      - name: Packen
+        run: |
+          mkdir dist
+          ditto -c -k --sequesterRsrc --keepParent build/Pegli.app dist/Pegli-macOS.zip
+          (cd dist && shasum -a 256 Pegli-macOS.zip > SHA256SUMS)
+          cat dist/SHA256SUMS
+      - name: Release-Notizen aus CHANGELOG
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          awk -v v="$version" '$0 ~ "^## " v " " {on=1; next} /^## / {on=0} on' CHANGELOG.md > dist/notes.md
+          cat >> dist/notes.md <<'NOTES'
+
+          **Installieren** (Apple Silicon, macOS 14+):
+
+          ```bash
+          curl -fsSL https://raw.githubusercontent.com/hannokuegler/pegli/main/install.sh | bash
+          ```
+          NOTES
+      - name: Veröffentlichen
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" dist/Pegli-macOS.zip dist/SHA256SUMS \
+            --title "Pegli $GITHUB_REF_NAME" --notes-file dist/notes.md
