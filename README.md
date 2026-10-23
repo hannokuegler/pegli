@@ -1,8 +1,8 @@
 <div align="center">
 
-<a href="docs/pegli-tour.mp4"><img src="docs/pegli-tour.webp" alt="22-second tour: click the CPU/MEM/HD icon in the menu bar, the Pegli panel drops down, unfolds into details, switches between light, dark, English and German, then shows 0.6 % CPU, 13 MB memory, 1.7 MB app size and zero dependencies" width="100%"></a>
+<a href="https://github.com/hannokuegler/pegli/raw/main/docs/pegli-tour.mp4"><img src="docs/pegli-tour.webp" alt="22-second tour: click the CPU/MEM/HD icon in the menu bar, the Pegli panel drops down, unfolds into details, switches between light, dark, English and German, then shows 0.6 % CPU, 13 MB memory, 1.7 MB app size and zero dependencies" width="100%"></a>
 
-<sub>▶︎ 22-second tour, made with <a href="https://github.com/latent-spaces/brag">/brag</a> — <a href="docs/pegli-tour.mp4">watch with sound</a></sub>
+<sub>▶︎ 22-second tour, made with <a href="https://github.com/latent-spaces/brag">/brag</a> — <a href="https://github.com/hannokuegler/pegli/raw/main/docs/pegli-tour.mp4">download the MP4 with sound</a></sub>
 
 # Pegli
 
