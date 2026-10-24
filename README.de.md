@@ -1,8 +1,8 @@
 <div align="center">
 
-<a href="https://github.com/hannokuegler/pegli/raw/main/docs/pegli-tour.mp4"><img src="docs/pegli-tour.webp" alt="22-Sekunden-Tour: Klick aufs CPU/MEM/HD-Icon in der Menüleiste, das Pegli-Panel klappt auf, zeigt Details, wechselt zwischen hell, dunkel, Englisch und Deutsch und endet mit 0,6 % CPU, 13 MB Speicher, 1,7 MB App-Größe und null Abhängigkeiten" width="100%"></a>
+<a href="#die-tour-mit-ton"><img src="docs/pegli-tour.webp" alt="22-Sekunden-Tour: Klick aufs CPU/MEM/HD-Icon in der Menüleiste, das Pegli-Panel klappt auf, zeigt Details, wechselt zwischen hell, dunkel, Englisch und Deutsch und endet mit 0,6 % CPU, 13 MB Speicher, 1,7 MB App-Größe und null Abhängigkeiten" width="100%"></a>
 
-<sub>▶︎ 22-Sekunden-Tour, gemacht mit <a href="https://github.com/latent-spaces/brag">/brag</a> — <a href="https://github.com/hannokuegler/pegli/raw/main/docs/pegli-tour.mp4">MP4 mit Ton herunterladen</a></sub>
+<sub>▶︎ 22-Sekunden-Tour, gemacht mit <a href="https://github.com/latent-spaces/brag">/brag</a> — <a href="#die-tour-mit-ton">mit Ton ansehen</a></sub>
 
 # Pegli
 
@@ -25,6 +25,12 @@ curl -fsSL https://raw.githubusercontent.com/hannokuegler/pegli/main/install.sh 
 ```
 
 <sub>Ein Befehl im Terminal: lädt die neueste Version, prüft die SHA-256-Prüfsumme, installiert nach `~/Applications`, richtet den Autostart ein und startet Pegli. Andere Wege: [Installation](#installation).</sub>
+
+## Die Tour mit Ton
+
+https://github.com/user-attachments/assets/1afdc507-0e9c-4d14-8f79-6da0dcb0738b
+
+<sub>22 Sekunden, Ton an. Gemacht mit <a href="https://github.com/latent-spaces/brag">/brag</a> aus der echten App — jedes Panel im Video ist ein echter Pegli-Render.</sub>
 
 ## Was Pegli kann
 

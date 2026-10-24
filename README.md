@@ -1,8 +1,8 @@
 <div align="center">
 
-<a href="https://github.com/hannokuegler/pegli/raw/main/docs/pegli-tour.mp4"><img src="docs/pegli-tour.webp" alt="22-second tour: click the CPU/MEM/HD icon in the menu bar, the Pegli panel drops down, unfolds into details, switches between light, dark, English and German, then shows 0.6 % CPU, 13 MB memory, 1.7 MB app size and zero dependencies" width="100%"></a>
+<a href="#watch-the-tour"><img src="docs/pegli-tour.webp" alt="22-second tour: click the CPU/MEM/HD icon in the menu bar, the Pegli panel drops down, unfolds into details, switches between light, dark, English and German, then shows 0.6 % CPU, 13 MB memory, 1.7 MB app size and zero dependencies" width="100%"></a>
 
-<sub>▶︎ 22-second tour, made with <a href="https://github.com/latent-spaces/brag">/brag</a> — <a href="https://github.com/hannokuegler/pegli/raw/main/docs/pegli-tour.mp4">download the MP4 with sound</a></sub>
+<sub>▶︎ 22-second tour, made with <a href="https://github.com/latent-spaces/brag">/brag</a> — <a href="#watch-the-tour">watch it with sound</a></sub>
 
 # Pegli
 
@@ -25,6 +25,12 @@ curl -fsSL https://raw.githubusercontent.com/hannokuegler/pegli/main/install.sh 
 ```
 
 <sub>One command: downloads the latest release, verifies its SHA-256 checksum, installs to `~/Applications`, sets up autostart and launches Pegli. Other options: [Installation](#installation).</sub>
+
+## Watch the tour
+
+https://github.com/user-attachments/assets/1afdc507-0e9c-4d14-8f79-6da0dcb0738b
+
+<sub>22 seconds, sound on. Made with <a href="https://github.com/latent-spaces/brag">/brag</a> from the real app — every panel in the video is an actual Pegli render.</sub>
 
 ## What Pegli shows
 
